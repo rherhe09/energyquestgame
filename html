@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Quest Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .question { margin: 20px; font-size: 20px; }
+        .options { display: flex; justify-content: center; gap: 10px; }
+        button { padding: 10px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Energy Quest!</h1>
+    <p>Test your knowledge of energy, heat transfer, and electromagnetism!</p>
+    
+    <div id="game">
+        <div class="question" id="question">Loading question...</div>
+        <div class="options" id="options"></div>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                question: "Which of the following is an example of potential energy?", 
+                options: ["A moving car", "A stretched rubber band", "A rolling ball", "A spinning fan"], 
+                answer: 1
+            },
+            { 
+                question: "What type of heat transfer occurs when the Sun warms your skin?", 
+                options: ["Conduction", "Convection", "Radiation"], 
+                answer: 2
+            },
+            { 
+                question: "What happens when you increase the number of coils in an electromagnet?", 
+                options: ["The magnetic field gets stronger", "The magnetic field gets weaker", "Nothing changes"], 
+                answer: 0
+            }
+        ];
+        
+        let currentQuestion = 0;
+        
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById("question").innerText = q.question;
+            document.getElementById("options").innerHTML = "";
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement("button");
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index);
+                document.getElementById("options").appendChild(btn);
+            });
+        }
+        
+        function checkAnswer(selected) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById("feedback");
+            if (selected === q.answer) {
+                feedback.innerText = "Correct! 🎉";
+            } else {
+                feedback.innerText = "Oops! Try again. ❌";
+            }
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    feedback.innerText = "";
+                    loadQuestion();
+                } else {
+                    document.getElementById("game").innerHTML = "<h2>Congratulations! You've completed Energy Quest! 🎮</h2>";
+                }
+            }, 1000);
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
